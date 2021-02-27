@@ -1,8 +1,5 @@
-package com.takechee.composesample
+package com.takechee.composesample.ui.animals
 
-import android.os.Bundle
-import androidx.activity.compose.setContent
-import androidx.appcompat.app.AppCompatActivity
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
@@ -19,16 +16,46 @@ import com.takechee.composesample.data.SampleDataFactory
 import com.takechee.composesample.domain.Animal
 import com.takechee.composesample.ui.theme.ComposeSampleTheme
 
-class MainActivity : AppCompatActivity() {
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        setContent {
-            ComposeSampleTheme {
-                // A surface container using the 'background' color from the theme
-                Surface(color = MaterialTheme.colors.background) {
-                    ScreenContent()
+@Composable
+fun Animals() {
+    ComposeSampleTheme {
+        // A surface container using the 'background' color from the theme
+        Surface(color = MaterialTheme.colors.background) {
+            AnimalsContent()
+        }
+    }
+}
+
+
+@Composable
+fun AnimalsContent() {
+    val animals = SampleDataFactory.createAnimals()
+
+    Column(
+        modifier = Modifier
+            .fillMaxSize()
+    ) {
+        TopAppBar(
+            title = {
+                Row {
+                    Text(text = "AppBar")
+                    Text(text = " With another child")
                 }
             }
+        )
+
+        Column(modifier = Modifier.fillMaxWidth()) {
+            AnimalList(animals = animals, modifier = Modifier.weight(1f))
+        }
+    }
+}
+
+@Composable
+fun AnimalList(animals: List<Animal>, modifier: Modifier = Modifier) {
+    LazyColumn(modifier = modifier) {
+        items(items = animals) { animal ->
+            AnimalListItem(animal = animal)
+            Divider(color = Color.Gray)
         }
     }
 }
@@ -58,44 +85,10 @@ fun AnimalListItem(animal: Animal) {
     }
 }
 
-@Composable
-fun AnimalList(animals: List<Animal>, modifier: Modifier = Modifier) {
-    LazyColumn(modifier = modifier) {
-        items(items = animals) { animal ->
-            AnimalListItem(animal = animal)
-            Divider(color = Color.Gray)
-        }
-    }
-}
-
-@Composable
-fun ScreenContent() {
-    val animals = SampleDataFactory.createAnimals()
-    Box {
-        Column(
-            modifier = Modifier
-                .fillMaxSize()
-        ) {
-            TopAppBar(
-                title = {
-                    Row {
-                        Text(text = "AppBar")
-                        Text(text = " With another child")
-                    }
-                }
-            )
-
-            Column(modifier = Modifier.fillMaxWidth()) {
-                AnimalList(animals = animals, modifier = Modifier.weight(1f))
-            }
-        }
-    }
-}
-
 @Preview(showBackground = true)
 @Composable
 fun DefaultPreview() {
     ComposeSampleTheme {
-        ScreenContent()
+        AnimalsContent()
     }
 }
