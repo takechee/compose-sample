@@ -1,6 +1,7 @@
 package com.takechee.composesample.ui.animals
 
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
@@ -17,18 +18,18 @@ import com.takechee.composesample.domain.Animal
 import com.takechee.composesample.ui.theme.ComposeSampleTheme
 
 @Composable
-fun AnimalsPage() {
+fun AnimalsPage(selectAnimal: (Int) -> Unit) {
     ComposeSampleTheme {
         // A surface container using the 'background' color from the theme
         Surface(color = MaterialTheme.colors.background) {
-            AnimalsPageContent()
+            AnimalsPageContent(selectAnimal = selectAnimal)
         }
     }
 }
 
 
 @Composable
-fun AnimalsPageContent() {
+fun AnimalsPageContent(selectAnimal: (Int) -> Unit) {
     val animals = SampleData.animals
 
     Column(
@@ -45,25 +46,33 @@ fun AnimalsPageContent() {
         )
 
         Column(modifier = Modifier.fillMaxWidth()) {
-            AnimalList(animals = animals, modifier = Modifier.weight(1f))
+            AnimalList(
+                animals = animals,
+                modifier = Modifier.weight(1f),
+                selectAnimal = selectAnimal,
+            )
         }
     }
 }
 
 @Composable
-fun AnimalList(animals: List<Animal>, modifier: Modifier = Modifier) {
+fun AnimalList(animals: List<Animal>, modifier: Modifier = Modifier, selectAnimal: (Int) -> Unit) {
     LazyColumn(modifier = modifier) {
         items(items = animals) { animal ->
-            AnimalListItem(animal = animal)
+            AnimalListItem(animal = animal, selectAnimal = selectAnimal)
             Divider(color = Color.Gray)
         }
     }
 }
 
 @Composable
-fun AnimalListItem(animal: Animal) {
+fun AnimalListItem(
+    animal: Animal,
+    selectAnimal: (Int) -> Unit
+) {
     Row(
         modifier = Modifier
+            .clickable(onClick = { selectAnimal.invoke(animal.id) })
             .fillMaxWidth()
             .padding(all = 16.dp)
     ) {
@@ -89,6 +98,6 @@ fun AnimalListItem(animal: Animal) {
 @Composable
 fun DefaultPreview() {
     ComposeSampleTheme {
-        AnimalsPageContent()
+        AnimalsPageContent(selectAnimal = {})
     }
 }
