@@ -4,7 +4,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.*
-import com.takechee.composesample.ui.animals.Animals
+import com.takechee.composesample.ui.animals.AnimalsPage
 
 /**
  * Destinations used in the ([ComposeSampleApp]).
@@ -23,7 +23,7 @@ fun NavGraph(startDestination: String = MainDestinations.ANIMALS_ROUTE) {
         startDestination = startDestination
     ) {
         composable(MainDestinations.ANIMALS_ROUTE) {
-            Animals()
+            AnimalsPage()
         }
     }
 }

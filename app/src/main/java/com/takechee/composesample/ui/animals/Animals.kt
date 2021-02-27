@@ -12,24 +12,24 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.takechee.composesample.data.SampleDataFactory
+import com.takechee.composesample.data.SampleData
 import com.takechee.composesample.domain.Animal
 import com.takechee.composesample.ui.theme.ComposeSampleTheme
 
 @Composable
-fun Animals() {
+fun AnimalsPage() {
     ComposeSampleTheme {
         // A surface container using the 'background' color from the theme
         Surface(color = MaterialTheme.colors.background) {
-            AnimalsContent()
+            AnimalsPageContent()
         }
     }
 }
 
 
 @Composable
-fun AnimalsContent() {
-    val animals = SampleDataFactory.createAnimals()
+fun AnimalsPageContent() {
+    val animals = SampleData.animals
 
     Column(
         modifier = Modifier
@@ -89,6 +89,6 @@ fun AnimalListItem(animal: Animal) {
 @Composable
 fun DefaultPreview() {
     ComposeSampleTheme {
-        AnimalsContent()
+        AnimalsPageContent()
     }
 }
